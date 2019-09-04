@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBullet : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
-    public float upSpeed = 1.5f;
+    public float verticalSpeed = 1.5f;
+    public string[] tags;
 
     private Rigidbody rb;
     // Start is called before the first frame update
@@ -16,7 +17,7 @@ public class PlayerBullet : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        rb.velocity = Vector3.up * upSpeed;
+        rb.velocity = Vector3.up * verticalSpeed;
     }
 
     void OnBecameInvisible()
@@ -28,7 +29,7 @@ public class PlayerBullet : MonoBehaviour
     {
 
         //check if it hits enemy ship
-        if(other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
             Destroy(other.gameObject);
         }
