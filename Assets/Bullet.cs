@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float verticalSpeed = 1.5f;
-    public string[] tags;
+    public List<string> tagsOfObjectsItCannotDestroy;
 
     private Rigidbody rb;
     // Start is called before the first frame update
@@ -27,9 +27,7 @@ public class Bullet : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-
-        //check if it hits enemy ship
-        if (other.CompareTag("Enemy"))
+        if (!tagsOfObjectsItCannotDestroy.Contains(other.tag))
         {
             Destroy(other.gameObject);
         }
