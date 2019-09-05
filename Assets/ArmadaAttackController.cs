@@ -9,10 +9,14 @@ public class ArmadaAttackController : MonoBehaviour
 
     public GameObject bulletPrefab;
     public float bulletSpawnDistatnce;
+
+    public float intervalDifference = 0;
     // Start is called before the first frame update
     void Start()
     {
         timeRemaining = attackTimeInterval;
+        if(intervalDifference==0)
+            intervalDifference = (attackTimeInterval +0.1f) / (transform.childCount * transform.GetChild(0).childCount);
     }
 
     // Update is called once per frame
@@ -33,6 +37,10 @@ public class ArmadaAttackController : MonoBehaviour
         {
             timeRemaining -= Time.deltaTime;
         }
+    }
+    public void GoFaster()
+    {
+        attackTimeInterval -= intervalDifference;
     }
     Transform GetChildWithLowestY(Transform column)
     {

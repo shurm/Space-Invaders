@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class AlienBullet : MonoBehaviour
 {
     public float verticalSpeed = 1.5f;
-    public List<string> tagsOfObjectsItCannotDestroy;
 
     private Rigidbody rb;
     // Start is called before the first frame update
@@ -17,7 +16,7 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        rb.velocity = Vector3.up * verticalSpeed;
+        rb.velocity = Vector3.down * verticalSpeed;
     }
 
     void OnBecameInvisible()
@@ -27,10 +26,20 @@ public class Bullet : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (!tagsOfObjectsItCannotDestroy.Contains(other.tag))
+        
+        if (other.CompareTag("Player"))
+        {
+            Transform partOfShip = other.transform;
+            Health health = partOfShip.GetComponentInParent<Health>();
+            health.Die();
+        }
+        else if (other.CompareTag("ShieldModules"))
         {
             Destroy(other.gameObject);
         }
-        Destroy(gameObject);
+        if (!other.CompareTag("Bullet"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
