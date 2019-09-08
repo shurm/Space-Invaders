@@ -42,6 +42,7 @@ public class ArmadaMovementController : MonoBehaviour
                 for (int c = 0; c < row.childCount; c++)
                 {
                     row.GetChild(c).position += displacement;
+                    row.GetChild(c).gameObject.GetComponent<SpriteAnimation>().UpdateSprite();
                    
                 }
             }

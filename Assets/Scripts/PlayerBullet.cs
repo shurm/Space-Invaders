@@ -36,7 +36,7 @@ public class PlayerBullet : MonoBehaviour
             armadaAttackController.GoFaster();
 
             if(other.transform.parent.childCount==1)
-                Destroy(other.transform.parent);
+                Destroy(other.transform.parent.gameObject);
             else
                 Destroy(other.gameObject);
         }
