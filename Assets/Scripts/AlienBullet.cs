@@ -26,7 +26,7 @@ public class AlienBullet : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        
+        //Debug.Log(other.tag);
         if (other.CompareTag("Player"))
         {
             Transform partOfShip = other.transform;

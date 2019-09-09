@@ -9,9 +9,12 @@ public class SpriteAnimation : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
-    private void Start()
+    private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        spriteRenderer.sprite = sprites[0];
+        i = 1;
     }
 
     public void UpdateSprite()

@@ -19,27 +19,29 @@ public class Ship : MonoBehaviour
     public float bulletSpawnDistatnce;
 
     private float timeRemainingTillNextShot = 0;
+
+    private ScoreController scoreController;
     void Start()
     {
         halfPlayerSizeX = baseRenderer.bounds.size.x / 2;
 
         rb = GetComponent<Rigidbody>();
 
-     
+        scoreController = GetComponent<ScoreController>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        clampPlayerMovement();
+        ClampPlayerMovement();
         if (timeRemainingTillNextShot > 0)
             timeRemainingTillNextShot -= Time.deltaTime;
 
         if (Input.GetAxisRaw("Jump")>0 && timeRemainingTillNextShot<=0)
         {
-            Instantiate(bulletPrefab, transform.position+Vector3.up*bulletSpawnDistatnce, Quaternion.identity);
-
+            GameObject newBullet = Instantiate(bulletPrefab, transform.position+Vector3.up*bulletSpawnDistatnce, Quaternion.identity);
+            newBullet.GetComponent<PlayerBullet>().scoreController = scoreController;
             timeRemainingTillNextShot = intervalBetweenShots;
         }
 
@@ -51,7 +53,7 @@ public class Ship : MonoBehaviour
         rb.velocity = Vector3.right* current_speed;
     }
 
-    void clampPlayerMovement()
+    void ClampPlayerMovement()
     {
         Vector3 position = transform.position;
 

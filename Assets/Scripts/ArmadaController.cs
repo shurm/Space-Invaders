@@ -20,8 +20,9 @@ public class ArmadaController : MonoBehaviour
     public GameObject bulletPrefab;
     public float bulletSpawnDistatnce;
 
-    public float intervalDifference = 0;
+    public float movementIntervalDifference = 0;
 
+    public GameObject armadaPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,13 +30,18 @@ public class ArmadaController : MonoBehaviour
         movesRemaining = horizontalMoves;
 
         timeRemainingTillAttack = attackTimeInterval;
-        if (intervalDifference == 0)
-            intervalDifference = (attackTimeInterval + 0.1f) / (transform.childCount * transform.GetChild(0).childCount);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(transform.childCount==0)
+        {
+            Instantiate(armadaPrefab, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+
         //movement logic 
         if (timeRemainingTillMove <= 0)
         {
@@ -57,8 +63,7 @@ public class ArmadaController : MonoBehaviour
                 for (int c = 0; c < row.childCount; c++)
                 {
                     row.GetChild(c).position += displacement;
-                   // row.GetChild(c).gameObject.GetComponent<Animator>().speed = 0.2f/movementTimeInterval;
-                    
+                    row.GetChild(c).gameObject.GetComponent<SpriteAnimation>().UpdateSprite();
                 }
             }
             timeRemainingTillMove = movementTimeInterval;
@@ -72,6 +77,8 @@ public class ArmadaController : MonoBehaviour
         //attack logic 
         if (timeRemainingTillAttack <= 0)
         {
+            if (transform.childCount == 0)
+                return;
             int randomAlienColumn = Random.Range(0, transform.childCount - 1);
 
             Transform columnChosen = transform.GetChild(randomAlienColumn);
@@ -88,7 +95,8 @@ public class ArmadaController : MonoBehaviour
     }
     public void GoFaster()
     {
-        attackTimeInterval -= intervalDifference;
+        movementTimeInterval -= movementIntervalDifference;
+        attackTimeInterval -= movementIntervalDifference;
     }
     Transform GetChildWithLowestY(Transform column)
     {
@@ -102,4 +110,6 @@ public class ArmadaController : MonoBehaviour
         }
         return lowestChild;
     }
+
+    
 }

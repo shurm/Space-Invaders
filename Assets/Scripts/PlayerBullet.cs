@@ -5,8 +5,12 @@ using UnityEngine;
 public class PlayerBullet : MonoBehaviour
 {
     public float verticalSpeed = 1.5f;
- 
+
+    public ScoreController scoreController;
+
     private Rigidbody rb;
+
+    public GameObject explosion;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,9 +33,10 @@ public class PlayerBullet : MonoBehaviour
         
         if (other.CompareTag("Alien"))
         {
+            PointsEarnedWhenDestroyed p = other.gameObject.GetComponent<PointsEarnedWhenDestroyed>();
             Transform aramada = other.transform.parent.parent;
 
-            ArmadaAttackController armadaAttackController = aramada.GetComponent<ArmadaAttackController>();
+            ArmadaController armadaAttackController = aramada.GetComponent<ArmadaController>();
             //Debug.Log("ttesting");
             armadaAttackController.GoFaster();
 
@@ -39,6 +44,11 @@ public class PlayerBullet : MonoBehaviour
                 Destroy(other.transform.parent.gameObject);
             else
                 Destroy(other.gameObject);
+
+            scoreController.UpdateScore(p.points);
+
+            if(explosion!=null)
+                Instantiate(explosion, other.transform.position, Quaternion.identity);
         }
         if (!other.CompareTag("Bullet"))
         {

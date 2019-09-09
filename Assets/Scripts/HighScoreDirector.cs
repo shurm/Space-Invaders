@@ -23,14 +23,14 @@ public class HighScoreDirector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //newScore = PlayerPrefs.GetInt("player_score");
+        newScore = PlayerPrefs.GetInt("playerScore");
 
         highscoreFilePath = Application.dataPath + "/" + highscoreFilePath;
         if (!File.Exists(highscoreFilePath))
         {
             File.Create(highscoreFilePath);
         }
-        Debug.Log(highscoreFilePath);
+        //Debug.Log(highscoreFilePath);
         IEnumerable<string> fileLines = File.ReadLines(highscoreFilePath);
         
         foreach (string line in fileLines)
@@ -39,15 +39,15 @@ public class HighScoreDirector : MonoBehaviour
             names.Add(nameAndScore[0]);
             scores.Add(int.Parse(nameAndScore[1]));
         }
-        //if(scores.Count==limit && scores[limit-1]>= newScore)
+        if(newScore<0 || (scores.Count==limit && scores[limit-1]>= newScore))
         {
             UserInputCanvas.SetActive(false);
             DisplayScoresCanvas.SetActive(true);
 
         }
-        //else
+        else
         {
-           // newScoreText.text = "Score: "+ newScore;
+            newScoreText.text = "Score: "+ newScore;
         }
 
     }
@@ -104,5 +104,4 @@ public class HighScoreDirector : MonoBehaviour
         DisplayScoresCanvas.SetActive(true);
 
     }
-  
 }
