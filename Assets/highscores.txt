@@ -1,3 +1,2 @@
-testing,380
-d,250
-jhg,210
+nik,300
+nick,40

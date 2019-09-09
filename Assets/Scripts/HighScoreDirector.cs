@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class HighScoreDirector : MonoBehaviour
 {
     public string highscoreFilePath;
-    private int limit = 5;
+    public int limit = 5;
 
     private List<int> scores = new List<int>();
     private List<string> names = new List<string>();
@@ -28,7 +28,8 @@ public class HighScoreDirector : MonoBehaviour
         highscoreFilePath = Application.dataPath + "/" + highscoreFilePath;
         if (!File.Exists(highscoreFilePath))
         {
-            File.Create(highscoreFilePath);
+            File.Create(highscoreFilePath).Close();
+        
         }
         //Debug.Log(highscoreFilePath);
         IEnumerable<string> fileLines = File.ReadLines(highscoreFilePath);

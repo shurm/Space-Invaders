@@ -19,6 +19,11 @@ public class DisplayHighScores : MonoBehaviour
             Text newText = Instantiate(scoreAndNamePrefab, gameObject.transform);
             newText.text = names[i] + " - " + scores[i];
         }
+        for (int i = scores.Count; i < highScoreDirector.limit; i++)
+        {
+            Text newText = Instantiate(scoreAndNamePrefab, gameObject.transform);
+            newText.text = "(none)";
+        }
     }
 
     // Update is called once per frame
