@@ -24,6 +24,8 @@ public class Ship : MonoBehaviour
     public AudioSource playerShotSound;
 
     public MeshRenderer baseRenderer;
+
+    private float leftBorder, rightBorder;
     void Start()
     {
         halfPlayerSizeX = baseRenderer.bounds.size.x / 2;
@@ -31,6 +33,12 @@ public class Ship : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         scoreController = GetComponent<ScoreController>();
+
+        float distance = transform.position.z - Camera.main.transform.position.z;
+
+        leftBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance)).x + halfPlayerSizeX;
+        rightBorder = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, distance)).x - halfPlayerSizeX;
+
     }
 
     // Update is called once per frame
@@ -60,11 +68,6 @@ public class Ship : MonoBehaviour
     void ClampPlayerMovement()
     {
         Vector3 position = transform.position;
-
-        float distance = transform.position.z - Camera.main.transform.position.z;
-
-        float leftBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance)).x + halfPlayerSizeX;
-        float rightBorder = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, distance)).x - halfPlayerSizeX;
 
         position.x = Mathf.Clamp(position.x, leftBorder, rightBorder);
         transform.position = position;

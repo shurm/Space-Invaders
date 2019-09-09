@@ -40,7 +40,7 @@ public class Health : MonoBehaviour
 
         if (explosion != null)
         {
-            Debug.Log("death sound");
+            //Debug.Log("death sound");
             deathSound.Play();
             Instantiate(explosion, transform.position, Quaternion.identity);
             gameObject.SetActive(false);

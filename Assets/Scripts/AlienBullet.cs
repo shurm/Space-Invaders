@@ -12,18 +12,18 @@ public class AlienBullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
     }
-
+    void Update()
+    {
+        if(transform.position.y<-1)
+            Destroy(gameObject);
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
         rb.velocity = Vector3.down * verticalSpeed;
     }
 
-    void OnBecameInvisible()
-    {
-        //Debug.Log("DESTROY!!");
-        Destroy(gameObject);
-    }
+    
     void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other.tag);
