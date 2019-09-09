@@ -8,12 +8,18 @@ public class PlayerBullet : MonoBehaviour
 
     public ScoreController scoreController;
 
-    private Rigidbody rb;
+    
 
     public GameObject explosion;
+
+
+    private AudioSource deathSound;
+    private Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
+        deathSound = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -37,7 +43,7 @@ public class PlayerBullet : MonoBehaviour
             Transform aramada = other.transform.parent.parent;
 
             ArmadaController armadaAttackController = aramada.GetComponent<ArmadaController>();
-            //Debug.Log("ttesting");
+           // Debug.Log("ttesting");
             armadaAttackController.GoFaster();
 
             if(other.transform.parent.childCount==1)
@@ -47,7 +53,8 @@ public class PlayerBullet : MonoBehaviour
 
             scoreController.UpdateScore(p.points);
 
-            if(explosion!=null)
+            //deathSound.Play();
+            if (explosion!=null)
                 Instantiate(explosion, other.transform.position, Quaternion.identity);
         }
         if (!other.CompareTag("Bullet"))

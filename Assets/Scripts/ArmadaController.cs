@@ -23,6 +23,7 @@ public class ArmadaController : MonoBehaviour
     public float movementIntervalDifference = 0;
 
     public GameObject armadaPrefab;
+
     // Start is called before the first frame update
     void Start()
     {

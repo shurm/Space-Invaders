@@ -6,9 +6,8 @@ public class Ship : MonoBehaviour
 {
     public float DESIRED_SPEED = 5;
 
-    public MeshRenderer baseRenderer;
+   
     private Rigidbody rb;
-    // Start is called before the first frame update
 
     private float halfPlayerSizeX;
 
@@ -21,6 +20,10 @@ public class Ship : MonoBehaviour
     private float timeRemainingTillNextShot = 0;
 
     private ScoreController scoreController;
+
+    public AudioSource playerShotSound;
+
+    public MeshRenderer baseRenderer;
     void Start()
     {
         halfPlayerSizeX = baseRenderer.bounds.size.x / 2;
@@ -40,6 +43,7 @@ public class Ship : MonoBehaviour
 
         if (Input.GetAxisRaw("Jump")>0 && timeRemainingTillNextShot<=0)
         {
+            playerShotSound.Play();
             GameObject newBullet = Instantiate(bulletPrefab, transform.position+Vector3.up*bulletSpawnDistatnce, Quaternion.identity);
             newBullet.GetComponent<PlayerBullet>().scoreController = scoreController;
             timeRemainingTillNextShot = intervalBetweenShots;
