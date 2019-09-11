@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class PlayerBullet : MonoBehaviour
 {
-    public float verticalSpeed = 1.5f;
+    public float initialVerticalSpeed = 8f;
 
     public ScoreController scoreController;
-
-    
 
     public GameObject explosion;
 
@@ -21,35 +19,20 @@ public class PlayerBullet : MonoBehaviour
     {
         deathSound = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
+        rb.velocity = Vector3.up * initialVerticalSpeed;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        rb.velocity = Vector3.up * verticalSpeed;
+        if(transform.position.y<0)
+            Destroy(gameObject);
     }
-
-    void OnBecameInvisible()
+    void OnCollisionEnter(Collision other)
     {
-        //Debug.Log("DESTROY!!");
-        Destroy(gameObject);
-    }
-    void OnTriggerEnter(Collider other)
-    {
-        
-        if (other.CompareTag("Alien"))
+       
+        if (other.gameObject.CompareTag("Alien"))
         {
             PointsEarnedWhenDestroyed p = other.gameObject.GetComponent<PointsEarnedWhenDestroyed>();
-            Transform aramada = other.transform.parent.parent;
-
-            ArmadaController armadaAttackController = aramada.GetComponent<ArmadaController>();
-           // Debug.Log("ttesting");
-            armadaAttackController.GoFaster();
-
-            if(other.transform.parent.childCount==1)
-                Destroy(other.transform.parent.gameObject);
-            else
-                Destroy(other.gameObject);
 
             scoreController.UpdateScore(p.points);
 
@@ -57,7 +40,7 @@ public class PlayerBullet : MonoBehaviour
             if (explosion!=null)
                 Instantiate(explosion, other.transform.position, Quaternion.identity);
         }
-        if (!other.CompareTag("Bullet"))
+        if (!other.gameObject.CompareTag("Bullet"))
         {
             Destroy(gameObject);
         }

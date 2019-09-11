@@ -6,11 +6,16 @@ public class AlienBullet : MonoBehaviour
 {
     public float verticalSpeed = 1.5f;
 
+    public Material deadMaterial;
     private Rigidbody rb;
+    private MeshRenderer renderer;
+    private bool dead = false;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        renderer = GetComponent<MeshRenderer>();
     }
     void Update()
     {
@@ -20,24 +25,37 @@ public class AlienBullet : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        rb.velocity = Vector3.down * verticalSpeed;
+        if(!dead)
+            rb.velocity = Vector3.down * verticalSpeed;
+        
     }
 
     
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
-        //Debug.Log(other.tag);
-        if (other.CompareTag("Player"))
+        if (dead)
+            return;
+        //Debug.Log("collided with "+other.gameObject.tag);
+        if (other.gameObject.CompareTag("Dead") || other.gameObject.CompareTag("Ground"))
+        {
+            dead = true;
+            gameObject.tag = "Dead";
+            renderer.material = deadMaterial;
+            rb.useGravity = true;
+            rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezePositionZ; ;
+            return;
+        }
+        if (other.gameObject.CompareTag("Player"))
         {
             Transform partOfShip = other.transform;
             Health health = partOfShip.GetComponentInParent<Health>();
             health.Die();
         }
-        else if (other.CompareTag("ShieldModules"))
+        else if (other.gameObject.CompareTag("ShieldModules"))
         {
             Destroy(other.gameObject);
         }
-        if (!other.CompareTag("Bullet"))
+        if (!other.gameObject.CompareTag("Bullet"))
         {
             Destroy(gameObject);
         }
