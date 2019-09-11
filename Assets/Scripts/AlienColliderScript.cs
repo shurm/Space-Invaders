@@ -31,7 +31,7 @@ public class AlienColliderScript : MonoBehaviour
             rigidbody.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezePositionZ;
 
             if (column.childCount == 0)
-                Destroy(column);
+                Destroy(column.gameObject);
 
             foreach (MeshRenderer renderer in renderers)
             {

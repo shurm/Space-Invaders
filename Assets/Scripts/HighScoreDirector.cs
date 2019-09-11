@@ -18,7 +18,7 @@ public class HighScoreDirector : MonoBehaviour
     public GameObject UserInputCanvas;
 
     public TMP_InputField userInputForNewName;
-    public Text newScoreText;
+    public Text scoreDisplayText;
     private int newScore =0; 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +48,7 @@ public class HighScoreDirector : MonoBehaviour
         }
         else
         {
-            newScoreText.text = "Score: "+ newScore;
+            scoreDisplayText.text = "Score: "+ newScore;
         }
 
     }
