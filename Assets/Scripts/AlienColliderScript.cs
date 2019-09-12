@@ -6,6 +6,7 @@ public class AlienColliderScript : MonoBehaviour
 {
     public Material deadMaterial;
     public Sprite deadSprite;
+    private float lowerYBound = -1;
     private Rigidbody rigidbody;
     private MeshRenderer[] renderers;
     private SpriteRenderer spriteRenderer;
@@ -16,7 +17,11 @@ public class AlienColliderScript : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         renderers = GetComponentsInChildren<MeshRenderer>();
     }
-
+    private void Update()
+    {
+        if (transform.position.y < lowerYBound)
+            Destroy(gameObject);
+    }
     public void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("PlayerBullet") && transform.parent!=null)
@@ -38,6 +43,7 @@ public class AlienColliderScript : MonoBehaviour
                 renderer.material = deadMaterial;
             }
             spriteRenderer.sprite = deadSprite;
+            other.gameObject.tag = "Dead";
         }
     }
 }
