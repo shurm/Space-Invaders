@@ -35,29 +35,28 @@ public class AlienBullet : MonoBehaviour
     {
         if (dead)
             return;
-        //Debug.Log("collided with "+other.gameObject.tag);
-        if (other.gameObject.CompareTag("Dead") || other.gameObject.CompareTag("Ground"))
-        {
-            dead = true;
-            gameObject.tag = "Dead";
-            renderer.material = deadMaterial;
-            rb.useGravity = true;
-            rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezePositionZ; ;
-            return;
-        }
+
+        dead = true;
+        gameObject.tag = "Dead";
+        renderer.material = deadMaterial;
+        rb.useGravity = true;
+        rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezePositionZ;
+
+        
         if (other.gameObject.CompareTag("Player"))
         {
-            Transform partOfShip = other.transform;
-            Health health = partOfShip.GetComponentInParent<Health>();
+
+            Health health = other.gameObject.GetComponentInParent<Health>();
             health.Die();
+            Destroy(gameObject);
+            return;
         }
-        else if (other.gameObject.CompareTag("ShieldModules"))
+        if (other.gameObject.CompareTag("ShieldModules"))
         {
             Destroy(other.gameObject);
-        }
-        if (!other.gameObject.CompareTag("Bullet"))
-        {
             Destroy(gameObject);
+            return;
         }
+       
     }
 }

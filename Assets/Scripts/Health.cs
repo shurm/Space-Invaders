@@ -19,7 +19,10 @@ public class Health : MonoBehaviour
         livesText = GameObject.Find("Lives Number").GetComponent<Text>();
         armada = GameObject.Find("Armada");
     }
-
+    void Update()
+    {
+        livesText.text = lives + "";
+    }
     public void DiePermanently()
     {
         lives = 0;
@@ -29,6 +32,8 @@ public class Health : MonoBehaviour
 
     public void Die()
     {
+        //Debug.Log("dying");
+
         lives -= 1;
 
         DeathStuff();
@@ -36,7 +41,7 @@ public class Health : MonoBehaviour
 
     private void DeathStuff()
     {
-        livesText.text = lives + "";
+
 
         if (explosion != null)
         {
@@ -45,6 +50,7 @@ public class Health : MonoBehaviour
             Instantiate(explosion, transform.position, Quaternion.identity);
             gameObject.SetActive(false);
         }
+        
     }
     
 }

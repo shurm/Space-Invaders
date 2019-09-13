@@ -10,6 +10,17 @@ public class GamePlayDirector : MonoBehaviour
     public Text currentScore;
     public Text currentLivesAmount;
 
+    private void Update()
+    {
+        int lives = int.Parse(currentLivesAmount.text);
+        if (lives <= 0)
+        {
+            int score = int.Parse(currentScore.text);
+            PlayerPrefs.SetInt("playerScore", score);
+            GameObject.FindGameObjectWithTag("Armada").SetActive(false);
+            SceneManager.LoadScene("HighScore");
+        }
+    }
     public void AfterShipExplosion()
     {
         int lives = int.Parse(currentLivesAmount.text);
@@ -18,11 +29,5 @@ public class GamePlayDirector : MonoBehaviour
             playerShip.SetActive(true);
             return;
         }
-        int score = int.Parse(currentScore.text);
-        PlayerPrefs.SetInt("playerScore", score);
-        GameObject.FindGameObjectWithTag("Armada").SetActive(false);
-        SceneManager.LoadScene("HighScore");
     }
-
-    
 }
