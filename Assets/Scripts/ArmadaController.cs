@@ -22,8 +22,6 @@ public class ArmadaController : MonoBehaviour
 
     public float movementIntervalDifference = 0;
 
-    public GameObject armadaPrefab;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -37,11 +35,7 @@ public class ArmadaController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(transform.childCount==0)
-        {
-            Instantiate(armadaPrefab, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-        }
+
 
         //movement logic 
         if (timeRemainingTillMove <= 0)

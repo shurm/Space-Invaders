@@ -24,7 +24,9 @@ public class AlienColliderScript : MonoBehaviour
     }
     public void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("PlayerBullet") && transform.parent!=null)
+        if (transform.parent == null)
+            return;
+        if (other.gameObject.CompareTag("PlayerBullet"))
         {
             Transform aramada = transform.parent.parent;
             ArmadaController armadaAttackController = aramada.GetComponent<ArmadaController>();
@@ -44,6 +46,12 @@ public class AlienColliderScript : MonoBehaviour
             }
             spriteRenderer.sprite = deadSprite;
             other.gameObject.tag = "Dead";
+        }
+
+        if (other.gameObject.CompareTag("ShieldModules"))
+        {
+            Destroy(other.gameObject);
+            return;
         }
     }
 }

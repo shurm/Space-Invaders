@@ -9,6 +9,14 @@ public class GamePlayDirector : MonoBehaviour
     public GameObject playerShip;
     public Text currentScore;
     public Text currentLivesAmount;
+    public GameObject armadaPrefab;
+    public Transform desiredArmadaPosition;
+    private GameObject currentArmada;
+
+    private void Start()
+    {
+        currentArmada = Instantiate(armadaPrefab, desiredArmadaPosition.position, Quaternion.identity);
+    }
 
     private void Update()
     {
@@ -19,6 +27,11 @@ public class GamePlayDirector : MonoBehaviour
             PlayerPrefs.SetInt("playerScore", score);
             GameObject.FindGameObjectWithTag("Armada").SetActive(false);
             SceneManager.LoadScene("HighScore");
+        }
+        if (currentArmada.transform.childCount == 0)
+        {
+            Destroy(currentArmada);
+            currentArmada = Instantiate(armadaPrefab, desiredArmadaPosition.position, Quaternion.identity);
         }
     }
     public void AfterShipExplosion()
