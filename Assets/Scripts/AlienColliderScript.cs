@@ -29,9 +29,9 @@ public class AlienColliderScript : MonoBehaviour
         if (other.gameObject.CompareTag("PlayerBullet"))
         {
             Transform aramada = transform.parent.parent;
-            ArmadaController armadaAttackController = aramada.GetComponent<ArmadaController>();
+            //ArmadaController armadaAttackController = aramada.GetComponent<ArmadaController>();
 
-            armadaAttackController.GoFaster();
+            //armadaAttackController.GoFaster();
 
             Transform column = transform.parent;
             transform.parent = null;

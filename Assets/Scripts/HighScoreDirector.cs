@@ -9,6 +9,7 @@ public class HighScoreDirector : MonoBehaviour
     public string highscoreFilePath;
     public int limit = 5;
 
+
     private List<int> scores = new List<int>();
     private List<string> names = new List<string>();
 

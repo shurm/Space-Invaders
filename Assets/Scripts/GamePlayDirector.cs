@@ -11,7 +11,14 @@ public class GamePlayDirector : MonoBehaviour
     public Text currentLivesAmount;
     public GameObject armadaPrefab;
     public Transform desiredArmadaPosition;
+    public float armadaSpawnDelay;
+    public float textAnimationDuration;
+
     private GameObject currentArmada;
+
+    private int currentWaveNumber = 1;
+    public Text waveDisplayText;
+    private bool beingHandled = false;
 
     private void Start()
     {
@@ -30,9 +37,23 @@ public class GamePlayDirector : MonoBehaviour
         }
         if (currentArmada.transform.childCount == 0)
         {
-            Destroy(currentArmada);
-            currentArmada = Instantiate(armadaPrefab, desiredArmadaPosition.position, Quaternion.identity);
+            if(!beingHandled)
+            StartCoroutine(SpawnNextArmada());
         }
+    }
+    private IEnumerator SpawnNextArmada()
+    {
+        beingHandled = true;
+        yield return new WaitForSeconds(armadaSpawnDelay);
+        Destroy(currentArmada);
+        currentWaveNumber++;
+        currentArmada = Instantiate(armadaPrefab, desiredArmadaPosition.position, Quaternion.identity);
+        waveDisplayText.text = "Wave: " + currentWaveNumber;
+        waveDisplayText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(textAnimationDuration);
+        waveDisplayText.gameObject.SetActive(false);
+
+       beingHandled = false;
     }
     public void AfterShipExplosion()
     {
