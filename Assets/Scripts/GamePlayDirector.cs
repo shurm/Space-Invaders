@@ -38,7 +38,7 @@ public class GamePlayDirector : MonoBehaviour
         if (currentArmada.transform.childCount == 0)
         {
             if(!beingHandled)
-            StartCoroutine(SpawnNextArmada());
+                StartCoroutine(SpawnNextArmada());
         }
     }
     private IEnumerator SpawnNextArmada()
