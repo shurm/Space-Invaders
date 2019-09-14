@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerBullet : MonoBehaviour
 {
     public float initialVerticalSpeed = 8f;
-    public float bottomY;
+    
     public ScoreController scoreController;
 
     public GameObject explosion;
@@ -13,9 +13,12 @@ public class PlayerBullet : MonoBehaviour
     public Material deadMaterial;
     
     private MeshRenderer renderer;
-    private bool dead = false;
+  
     private AudioSource deathSound;
     private Rigidbody rb;
+
+    private bool dead = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,11 +30,7 @@ public class PlayerBullet : MonoBehaviour
     }
 
 
-    void Update()
-    {
-        if(transform.position.y< bottomY)
-            Destroy(gameObject);
-    }
+    
     void OnCollisionEnter(Collision other)
     {
         if (dead)
@@ -48,10 +47,11 @@ public class PlayerBullet : MonoBehaviour
             scoreController.UpdateScore(p.points);
 
             //deathSound.Play();
-            if (explosion!=null)
+            if (explosion != null)
                 Instantiate(explosion, other.transform.position, Quaternion.identity);
         }
-        
+        else
+            tag = "Untagged";
 
     }
 }

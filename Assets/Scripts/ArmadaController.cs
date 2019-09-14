@@ -6,6 +6,8 @@ public class ArmadaController : MonoBehaviour
 {
 
     public float movementTimeInterval;
+    public float movementTimeIntervalMin;
+    
     private float timeRemainingTillMove;
 
     public float horizonalDisplacement;
@@ -46,6 +48,8 @@ public class ArmadaController : MonoBehaviour
                 displacement = Vector3.down * verticalDisplacement;
                 movesRemaining = horizontalMoves;
                 horizonalDisplacement *= -1;
+                movementTimeInterval -= (2*movementIntervalDifference);
+                movementTimeInterval = Mathf.Max(movementTimeInterval, movementTimeIntervalMin);
             }
             else
             {
@@ -91,6 +95,7 @@ public class ArmadaController : MonoBehaviour
     public void GoFaster()
     {
         movementTimeInterval -= movementIntervalDifference;
+        movementTimeInterval = Mathf.Max(movementTimeInterval, movementTimeIntervalMin);
         attackTimeInterval -= movementIntervalDifference;
     }
     Transform GetChildWithLowestY(Transform column)

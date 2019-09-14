@@ -6,10 +6,10 @@ public class AlienColliderScript : MonoBehaviour
 {
     public Material deadMaterial;
     public Sprite deadSprite;
-    private float lowerYBound = -1;
     private Rigidbody rigidbody;
     private MeshRenderer[] renderers;
     private SpriteRenderer spriteRenderer;
+    private float lowerYBound = 0.5f;
 
     private void Start()
     {
@@ -19,13 +19,24 @@ public class AlienColliderScript : MonoBehaviour
     }
     private void Update()
     {
-        if (transform.position.y < lowerYBound)
-            Destroy(gameObject);
-    }
-    public void OnCollisionEnter(Collision other)
-    {
+        //if dead
         if (transform.parent == null)
             return;
+
+        if (transform.position.y < lowerYBound)
+        {
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            if(playerObject!=null)
+                playerObject.GetComponentInParent<Health>().DiePermanently();
+        }
+    }
+
+    public void OnCollisionEnter(Collision other)
+    {
+        //if dead
+        if (transform.parent == null)
+            return;
+
         if (other.gameObject.CompareTag("PlayerBullet"))
         {
             Transform aramada = transform.parent.parent;
@@ -45,7 +56,7 @@ public class AlienColliderScript : MonoBehaviour
                 renderer.material = deadMaterial;
             }
             spriteRenderer.sprite = deadSprite;
-            other.gameObject.tag = "Dead";
+            other.gameObject.tag = "Untagged";
         }
 
         if (other.gameObject.CompareTag("ShieldModules"))

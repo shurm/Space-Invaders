@@ -26,7 +26,7 @@ public class Health : MonoBehaviour
     public void DiePermanently()
     {
         lives = 0;
-
+        Update();
         DeathStuff();
     }
 
@@ -35,7 +35,7 @@ public class Health : MonoBehaviour
         //Debug.Log("dying");
 
         lives -= 1;
-
+        Update();
         DeathStuff();
     }
 

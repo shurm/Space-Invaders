@@ -32,7 +32,7 @@ public class GamePlayDirector : MonoBehaviour
         {
             int score = int.Parse(currentScore.text);
             PlayerPrefs.SetInt("playerScore", score);
-            GameObject.FindGameObjectWithTag("Armada").SetActive(false);
+            currentArmada.SetActive(false);
             SceneManager.LoadScene("HighScore");
         }
         if (currentArmada.transform.childCount == 0)

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3791011223907147664}
   - component: {fileID: 4653904424897194038}
   - component: {fileID: 3791011223907147666}
+  - component: {fileID: 3466572656219735764}
   m_Layer: 0
   m_Name: Alien_Bullet
   m_TagString: Bullet
@@ -123,3 +124,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
+--- !u!114 &3466572656219735764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3791011223907147661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12fd96964fa95864c89b109543498ba5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bottomY: -1
