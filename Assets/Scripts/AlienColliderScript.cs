@@ -11,11 +11,13 @@ public class AlienColliderScript : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private float lowerYBound = 0.5f;
 
+    private Health healthController;
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         renderers = GetComponentsInChildren<MeshRenderer>();
+        healthController = GameObject.Find("SceneDirector").GetComponent<Health>();
     }
     private void Update()
     {
@@ -25,9 +27,7 @@ public class AlienColliderScript : MonoBehaviour
 
         if (transform.position.y < lowerYBound)
         {
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-            if(playerObject!=null)
-                playerObject.GetComponentInParent<Health>().DiePermanently();
+            healthController.EndGame();
         }
     }
 
@@ -39,23 +39,8 @@ public class AlienColliderScript : MonoBehaviour
 
         if (other.gameObject.CompareTag("PlayerBullet"))
         {
-            Transform aramada = transform.parent.parent;
-            //ArmadaController armadaAttackController = aramada.GetComponent<ArmadaController>();
 
-            //armadaAttackController.GoFaster();
-
-            Transform column = transform.parent;
-            transform.parent = null;
-            rigidbody.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezePositionZ;
-
-            if (column.childCount == 0)
-                Destroy(column.gameObject);
-
-            foreach (MeshRenderer renderer in renderers)
-            {
-                renderer.material = deadMaterial;
-            }
-            spriteRenderer.sprite = deadSprite;
+            Die();
             other.gameObject.tag = "Untagged";
         }
 
@@ -64,5 +49,37 @@ public class AlienColliderScript : MonoBehaviour
             Destroy(other.gameObject);
             return;
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //if dead
+        if (transform.parent == null)
+            return;
+        if (other.gameObject.CompareTag("MissileExplosion"))
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Transform aramada = transform.parent.parent;
+        //ArmadaController armadaAttackController = aramada.GetComponent<ArmadaController>();
+
+        //armadaAttackController.GoFaster();
+
+        Transform column = transform.parent;
+        transform.parent = null;
+        rigidbody.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezePositionZ;
+
+        if (column.childCount == 0)
+            Destroy(column.gameObject);
+
+        foreach (MeshRenderer renderer in renderers)
+        {
+            renderer.material = deadMaterial;
+        }
+        spriteRenderer.sprite = deadSprite;
     }
 }

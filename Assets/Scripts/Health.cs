@@ -8,49 +8,55 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     public int lives;
-    public GameObject explosion;
-    public AudioSource deathSound;
-
     private Text livesText;
-    private GameObject armada;
-    
+
+    private ScoreController scoreController;
+    private GamePlayDirector director;
+
+    public GameObject player;
     private void Start()
     {
         livesText = GameObject.Find("Lives Number").GetComponent<Text>();
-        armada = GameObject.Find("Armada");
-    }
-    void Update()
-    {
-        livesText.text = lives + "";
-    }
-    public void DiePermanently()
-    {
-        lives = 0;
-        Update();
-        DeathStuff();
-    }
-
-    public void Die()
-    {
-        //Debug.Log("dying");
-
-        lives -= 1;
-        Update();
-        DeathStuff();
-    }
-
-    private void DeathStuff()
-    {
-
-
-        if (explosion != null)
-        {
-            //Debug.Log("death sound");
-            deathSound.Play();
-            Instantiate(explosion, transform.position, Quaternion.identity);
-            gameObject.SetActive(false);
-        }
-        
+        scoreController = GetComponent<ScoreController>();
+        director = GetComponent<GamePlayDirector>();
     }
     
+    internal void KillPlayer()
+    {
+        lives--;
+        KillPlayerHelper();
+    }
+    internal void EndGame()
+    {
+        lives = 0;
+        KillPlayerHelper();
+    }
+
+    private void KillPlayerHelper()
+    {
+        livesText.text = lives + "";
+        
+        player.GetComponent<CollisionExplosionController>().CreateExplosion();
+        player.SetActive(false);
+    }
+
+   
+    public void AfterShipExplosion()
+    {
+        
+        if (lives > 0)
+        {
+            player.SetActive(true);
+            return;
+        }
+        
+        if (lives <= 0)
+        {
+            int score = scoreController.currentScore;
+            PlayerPrefs.SetInt("playerScore", score);
+            director.currentArmada.SetActive(false);
+            SceneManager.LoadScene("HighScore");
+        }
+    }
+
 }

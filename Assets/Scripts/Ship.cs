@@ -53,7 +53,6 @@ public class Ship : MonoBehaviour
         {
             playerShotSound.Play();
             GameObject newBullet = Instantiate(bulletPrefab, transform.position+Vector3.up*bulletSpawnDistatnce, Quaternion.identity);
-            newBullet.GetComponent<PlayerBullet>().scoreController = scoreController;
             timeRemainingTillNextShot = intervalBetweenShots;
         }
 

@@ -6,11 +6,11 @@ using UnityEngine.Events;
 public class ParticleSystemAutoDestroy : MonoBehaviour
 {
     private ParticleSystem ps;
-    public GamePlayDirector director;
-
+    private Health director;
+    public bool notifyDirector = true;
     public void Start()
     {
-        director = GameObject.Find("SceneDirector").GetComponent<GamePlayDirector>();
+        director = GameObject.Find("SceneDirector").GetComponent <Health>();
         ps = GetComponent<ParticleSystem>();
     }
 
@@ -20,7 +20,8 @@ public class ParticleSystemAutoDestroy : MonoBehaviour
         {
             if (!ps.IsAlive())
             {
-                director.AfterShipExplosion();
+                if(notifyDirector)
+                    director.AfterShipExplosion();
                 Destroy(gameObject);
             }
         }

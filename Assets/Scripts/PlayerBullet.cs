@@ -6,7 +6,7 @@ public class PlayerBullet : MonoBehaviour
 {
     public float initialVerticalSpeed = 8f;
     
-    public ScoreController scoreController;
+    private ScoreController scoreController;
 
     public GameObject explosion;
 
@@ -27,6 +27,8 @@ public class PlayerBullet : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.velocity = Vector3.up * initialVerticalSpeed;
         renderer = GetComponent<MeshRenderer>();
+
+        scoreController = GameObject.Find("SceneDirector").GetComponent<ScoreController>();
     }
 
 
@@ -49,6 +51,8 @@ public class PlayerBullet : MonoBehaviour
             //deathSound.Play();
             if (explosion != null)
                 Instantiate(explosion, other.transform.position, Quaternion.identity);
+
+            other.gameObject.tag = "Untagged";
         }
         else
             tag = "Untagged";

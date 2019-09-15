@@ -10,6 +10,7 @@ public class AlienBullet : MonoBehaviour
     private Rigidbody rb;
     private MeshRenderer renderer;
 
+    private Health director;
     private bool dead = false;
     
     // Start is called before the first frame update
@@ -18,6 +19,7 @@ public class AlienBullet : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         renderer = GetComponent<MeshRenderer>();
         rb.velocity = Vector3.down * verticalSpeed;
+        director = GameObject.Find("SceneDirector").GetComponent<Health>();
     }
 
 
@@ -34,9 +36,8 @@ public class AlienBullet : MonoBehaviour
         
         if (other.gameObject.CompareTag("Player"))
         {
-
-            Health health = other.gameObject.GetComponentInParent<Health>();
-            health.Die();
+            director.KillPlayer();
+            
             Destroy(gameObject);
            
         }
