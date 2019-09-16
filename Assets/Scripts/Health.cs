@@ -14,11 +14,16 @@ public class Health : MonoBehaviour
     private GamePlayDirector director;
 
     public GameObject player;
+
+    private bool beingHandled = false;
     private void Start()
     {
         livesText = GameObject.Find("Lives Number").GetComponent<Text>();
+
         scoreController = GetComponent<ScoreController>();
         director = GetComponent<GamePlayDirector>();
+
+        livesText.text = lives + "";
     }
     
     internal void KillPlayer()
@@ -28,8 +33,12 @@ public class Health : MonoBehaviour
     }
     internal void EndGame()
     {
+        if (beingHandled)
+            return;
+        beingHandled = true;
         lives = 0;
         KillPlayerHelper();
+       
     }
 
     private void KillPlayerHelper()

@@ -10,7 +10,7 @@ public class ShieldModuleCollider : MonoBehaviour
     {
         if (transform.parent == null)
             return;
-        Debug.Log(other.gameObject.tag);
+        //Debug.Log(other.gameObject.tag);
         if (other.gameObject.CompareTag("AlienBullet") || other.gameObject.CompareTag("PlayerBullet"))
         {
             other.gameObject.tag = "Untagged";
@@ -18,21 +18,26 @@ public class ShieldModuleCollider : MonoBehaviour
             Transform parent = transform.parent;
             for (int i = parent.childCount - 1; i >= 0; i--)
             {
-                GameObject sibling = parent.GetChild(i).gameObject;
-                MeshRenderer mr = sibling.GetComponent<MeshRenderer>();
-                mr.material = deadMaterial;
-                Rigidbody rb = sibling.GetComponent<Rigidbody>();
-                rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezePositionZ;
-                rb.useGravity = true;
+                ShieldModuleCollider moduleScript = parent.GetChild(i).gameObject.GetComponent<ShieldModuleCollider>();
+                moduleScript.MakeInactive();
 
             }
             for (int i = parent.childCount - 1; i >= 0; i--)
             {
                 Transform sibling = parent.GetChild(i);
+                
                 sibling.parent = null;
             }
 
         }
+    }
+    public void MakeInactive()
+    {
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        mr.material = deadMaterial;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezePositionZ;
+        rb.useGravity = true;
     }
     private void OnTriggerEnter(Collider other)
     {

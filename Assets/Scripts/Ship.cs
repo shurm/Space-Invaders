@@ -1,17 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ship : MonoBehaviour
 {
-    public float DESIRED_SPEED = 5;
+    public float sideToSideMovementSpeed = 5;
 
-   
+    public Text missileShotsDisplayText;
+    public int missileShotsRemaining;
     private Rigidbody rb;
 
     private float halfPlayerSizeX;
 
     public GameObject bulletPrefab;
+    public GameObject rocketPrefab;
 
     public float intervalBetweenShots;
 
@@ -26,6 +29,7 @@ public class Ship : MonoBehaviour
     public MeshRenderer baseRenderer;
 
     private float leftBorder, rightBorder;
+   
     void Start()
     {
         halfPlayerSizeX = baseRenderer.bounds.size.x / 2;
@@ -39,6 +43,7 @@ public class Ship : MonoBehaviour
         leftBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance)).x + halfPlayerSizeX;
         rightBorder = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, distance)).x - halfPlayerSizeX;
 
+        missileShotsDisplayText.text = "" + missileShotsRemaining;
     }
 
     // Update is called once per frame
@@ -56,11 +61,22 @@ public class Ship : MonoBehaviour
             timeRemainingTillNextShot = intervalBetweenShots;
         }
 
+        if (Input.GetKeyDown(KeyCode.M) && timeRemainingTillNextShot <= 0 && missileShotsRemaining>0)
+        {
+            GameObject newRocket = Instantiate(rocketPrefab, rocketPrefab.transform.position, Quaternion.identity);
+            newRocket.SetActive(true);
+            timeRemainingTillNextShot = intervalBetweenShots;
+
+            missileShotsRemaining--;
+
+            missileShotsDisplayText.text = "" + missileShotsRemaining;
+        }
+
     }
 
     private void FixedUpdate()
     {
-        float current_speed = Input.GetAxisRaw("Horizontal") * DESIRED_SPEED;
+        float current_speed = Input.GetAxisRaw("Horizontal") * sideToSideMovementSpeed;
         rb.velocity = Vector3.right* current_speed;
     }
 

@@ -13,16 +13,21 @@ public class GamePlayDirector : MonoBehaviour
     public float textAnimationDuration;
 
     public GameObject currentArmada;
+    public AudioSource waveDestroyedSound;
+    public AudioSource startSound;
+    public Text waveDisplayText;
+
+    public float startSoundDelay;
 
     private int currentWaveNumber = 1;
-    public Text waveDisplayText;
+   
     private bool beingHandled = false;
 
     
     private void Start()
     {
         currentArmada = Instantiate(armadaPrefab, desiredArmadaPosition.position, Quaternion.identity);
-       
+        StartCoroutine(PlayStartSound());
     }
 
     private void Update()
@@ -46,10 +51,20 @@ public class GamePlayDirector : MonoBehaviour
         currentArmada = Instantiate(armadaPrefab, desiredArmadaPosition.position, Quaternion.identity);
         waveDisplayText.text = "Wave: " + currentWaveNumber;
         waveDisplayText.gameObject.SetActive(true);
+        if (waveDestroyedSound != null)
+            waveDestroyedSound.Play();
+
         yield return new WaitForSeconds(textAnimationDuration);
         waveDisplayText.gameObject.SetActive(false);
 
        beingHandled = false;
     }
-    
+
+    private IEnumerator PlayStartSound()
+    {
+     
+        yield return new WaitForSeconds(startSoundDelay);
+        startSound.Play();
+    }
+
 }

@@ -44,9 +44,7 @@ public class PlayerBullet : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezePositionZ;
         if (other.gameObject.CompareTag("Alien"))
         {
-            PointsEarnedWhenDestroyed p = other.gameObject.GetComponent<PointsEarnedWhenDestroyed>();
 
-            scoreController.UpdateScore(p.points);
 
             //deathSound.Play();
             if (explosion != null)
@@ -54,7 +52,7 @@ public class PlayerBullet : MonoBehaviour
 
             other.gameObject.tag = "Untagged";
         }
-        else
+        else if(!other.gameObject.CompareTag("ShieldModules"))
             tag = "Untagged";
 
     }

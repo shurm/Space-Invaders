@@ -12,12 +12,17 @@ public class AlienColliderScript : MonoBehaviour
     private float lowerYBound = 0.5f;
 
     private Health healthController;
+    private PointsEarnedWhenDestroyed p;
+    private ScoreController scoreController;
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         renderers = GetComponentsInChildren<MeshRenderer>();
-        healthController = GameObject.Find("SceneDirector").GetComponent<Health>();
+        GameObject director = GameObject.Find("SceneDirector");
+        healthController = director.GetComponent<Health>();
+        scoreController = director.GetComponent<ScoreController>();
+        p = GetComponent<PointsEarnedWhenDestroyed>();
     }
     private void Update()
     {
@@ -46,8 +51,9 @@ public class AlienColliderScript : MonoBehaviour
 
         if (other.gameObject.CompareTag("ShieldModules"))
         {
-            Destroy(other.gameObject);
-            return;
+            ShieldController shieldController = other.gameObject.GetComponentInParent<ShieldController>();
+            if(shieldController!=null)
+                shieldController.DestroyShield();
         }
     }
 
@@ -68,6 +74,8 @@ public class AlienColliderScript : MonoBehaviour
         //ArmadaController armadaAttackController = aramada.GetComponent<ArmadaController>();
 
         //armadaAttackController.GoFaster();
+
+        scoreController.UpdateScore(p.points);
 
         Transform column = transform.parent;
         transform.parent = null;
