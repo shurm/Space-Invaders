@@ -25,13 +25,4 @@ public class DisplayHighScores : MonoBehaviour
             newText.text = "(none)";
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetAxisRaw("Submit")!=0)
-        {
-            SceneManager.LoadScene("StartMenu");
-        }
-    }
 }

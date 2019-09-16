@@ -2,6 +2,7 @@
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HighScoreDirector : MonoBehaviour
@@ -103,5 +104,9 @@ public class HighScoreDirector : MonoBehaviour
 
         DisplayScoresCanvas.SetActive(true);
 
+    }
+    public void LoadStartMenuScene()
+    {
+        SceneManager.LoadScene("StartMenu");
     }
 }
