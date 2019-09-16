@@ -29,9 +29,12 @@ public class Ship : MonoBehaviour
     public MeshRenderer baseRenderer;
 
     private float leftBorder, rightBorder;
-   
-    void Start()
+
+    private Joystick joystick;
+
+    void Awake()
     {
+        joystick = FindObjectOfType<Joystick>();
         halfPlayerSizeX = baseRenderer.bounds.size.x / 2;
 
         rb = GetComponent<Rigidbody>();
@@ -54,14 +57,30 @@ public class Ship : MonoBehaviour
         if (timeRemainingTillNextShot > 0)
             timeRemainingTillNextShot -= Time.deltaTime;
 
-        if (Input.GetAxisRaw("Jump")>0 && timeRemainingTillNextShot<=0)
+        if (Input.GetAxisRaw("Jump")>0 )
         {
-            playerShotSound.Play();
-            GameObject newBullet = Instantiate(bulletPrefab, transform.position+Vector3.up*bulletSpawnDistatnce, Quaternion.identity);
-            timeRemainingTillNextShot = intervalBetweenShots;
+            LaunchBullet();
         }
 
-        if (Input.GetKeyDown(KeyCode.M) && timeRemainingTillNextShot <= 0 && missileShotsRemaining>0)
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            LaunchMissile();
+        }
+
+    }
+
+    public void LaunchBullet()
+    {
+        if (timeRemainingTillNextShot <= 0)
+        { 
+            playerShotSound.Play();
+            GameObject newBullet = Instantiate(bulletPrefab, transform.position + Vector3.up * bulletSpawnDistatnce, Quaternion.identity);
+            timeRemainingTillNextShot = intervalBetweenShots;
+        }
+    }
+    public void LaunchMissile()
+    {
+        if( timeRemainingTillNextShot <= 0 && missileShotsRemaining > 0)
         {
             GameObject newRocket = Instantiate(rocketPrefab, rocketPrefab.transform.position, Quaternion.identity);
             newRocket.SetActive(true);
@@ -71,12 +90,17 @@ public class Ship : MonoBehaviour
 
             missileShotsDisplayText.text = "" + missileShotsRemaining;
         }
-
+    }
+    public float GetPlayerSizeX()
+    {
+        return halfPlayerSizeX;
     }
 
     private void FixedUpdate()
     {
         float current_speed = Input.GetAxisRaw("Horizontal") * sideToSideMovementSpeed;
+        if (joystick != null)
+            current_speed += joystick.Horizontal * sideToSideMovementSpeed;
         rb.velocity = Vector3.right* current_speed;
     }
 

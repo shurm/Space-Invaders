@@ -13,16 +13,21 @@ public class CameraController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.C))
         {
-            if(main.enabled)
-            {
-                main.enabled = false;
-                bottomCam.enabled = true;
-            }
-            else
-            {
-                main.enabled = true;
-                bottomCam.enabled = false;
-            }
+            SwitchCameraView();
+        }
+    }
+
+    public void SwitchCameraView()
+    {
+        if (main.enabled)
+        {
+            main.enabled = false;
+            bottomCam.enabled = true;
+        }
+        else
+        {
+            main.enabled = true;
+            bottomCam.enabled = false;
         }
     }
 }

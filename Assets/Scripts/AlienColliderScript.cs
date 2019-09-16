@@ -9,11 +9,12 @@ public class AlienColliderScript : MonoBehaviour
     private Rigidbody rigidbody;
     private MeshRenderer[] renderers;
     private SpriteRenderer spriteRenderer;
-    private float lowerYBound = 0.5f;
+    private float minDistanceToGround = 1f;
 
     private Health healthController;
     private PointsEarnedWhenDestroyed p;
     private ScoreController scoreController;
+    private GameObject ground;
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -23,6 +24,7 @@ public class AlienColliderScript : MonoBehaviour
         healthController = director.GetComponent<Health>();
         scoreController = director.GetComponent<ScoreController>();
         p = GetComponent<PointsEarnedWhenDestroyed>();
+        ground = GameObject.Find("Ground");
     }
     private void Update()
     {
@@ -30,7 +32,7 @@ public class AlienColliderScript : MonoBehaviour
         if (transform.parent == null)
             return;
 
-        if (transform.position.y < lowerYBound)
+        if ((transform.position.y- ground.transform.position.y)<= minDistanceToGround)
         {
             healthController.EndGame();
         }
