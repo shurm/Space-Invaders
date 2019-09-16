@@ -28,7 +28,7 @@ public class AlienBullet : MonoBehaviour
         if (dead)
             return;
         dead = true;
-        gameObject.tag = "Untagged";
+        
         renderer.material = deadMaterial;
         rb.useGravity = true;
         rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezePositionZ;
@@ -39,14 +39,11 @@ public class AlienBullet : MonoBehaviour
             director.KillPlayer();
             
             Destroy(gameObject);
-           
+            return;
         }
-        if (other.gameObject.CompareTag("ShieldModules"))
-        {
-            Destroy(other.gameObject);
-            Destroy(gameObject);
-            
-        }
-       
+
+        if(!other.gameObject.CompareTag("ShieldModules"))
+            gameObject.tag = "Untagged";
+
     }
 }
