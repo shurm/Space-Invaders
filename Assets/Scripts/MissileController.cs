@@ -10,6 +10,11 @@ public class MissileController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();   
     }
+    private void OnBecameInvisible()
+    {
+        GetComponent<CollisionExplosionController>().CreateExplosion();
+        Destroy(gameObject);
+    }
     private void Update()
     {
         rb.velocity = Vector3.up * verticalSpeed;
