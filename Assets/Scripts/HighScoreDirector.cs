@@ -24,7 +24,7 @@ public class HighScoreDirector : MonoBehaviour
     {
         newScore = PlayerPrefs.GetInt("playerScore");
 
-        highscoreFilePath = Application.dataPath + "/" + highscoreFilePath;
+        highscoreFilePath = Application.persistentDataPath + "/" + highscoreFilePath;
         if (!File.Exists(highscoreFilePath))
         {
             File.Create(highscoreFilePath).Close();
