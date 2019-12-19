@@ -16,7 +16,12 @@ public class SpriteAnimation : MonoBehaviour
         spriteRenderer.sprite = sprites[0];
         i = 1;
     }
-
+    /*
+    public void Update()
+    {
+        UpdateSprite();
+    }
+    */
     public void UpdateSprite()
     {
         Sprite s = sprites[i];

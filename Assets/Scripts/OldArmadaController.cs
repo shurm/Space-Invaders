@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArmadaController : MonoBehaviour
+public class OldArmadaController : MonoBehaviour
 {
-
-    public GameObject[] alienPrefabs;
-
-    public float rowSpacing;
-    public float columnSpacing;
 
     public float movementTimeInterval;
     public float movementTimeIntervalMin;
-    
+
     private float timeRemainingTillMove;
 
     public float horizonalDisplacement;
@@ -36,7 +31,7 @@ public class ArmadaController : MonoBehaviour
         movesRemaining = horizontalMoves;
 
         timeRemainingTillAttack = attackTimeInterval;
-        
+
     }
 
     // Update is called once per frame
@@ -53,7 +48,7 @@ public class ArmadaController : MonoBehaviour
                 displacement = Vector3.down * verticalDisplacement;
                 movesRemaining = horizontalMoves;
                 horizonalDisplacement *= -1;
-                movementTimeInterval -= (2*movementIntervalDifference);
+                movementTimeInterval -= (2 * movementIntervalDifference);
                 movementTimeInterval = Mathf.Max(movementTimeInterval, movementTimeIntervalMin);
             }
             else
@@ -95,7 +90,7 @@ public class ArmadaController : MonoBehaviour
         else
         {
             timeRemainingTillAttack -= Time.deltaTime;
-        }  
+        }
     }
     public void GoFaster()
     {
@@ -116,5 +111,5 @@ public class ArmadaController : MonoBehaviour
         return lowestChild;
     }
 
-    
+
 }
