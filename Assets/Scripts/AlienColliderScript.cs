@@ -5,10 +5,9 @@ using UnityEngine;
 public class AlienColliderScript : MonoBehaviour
 {
     public Material deadMaterial;
-    public Sprite deadSprite;
+    private SpriteAnimation spriteAnimation;
     private Rigidbody rigidbody;
-    private MeshRenderer[] renderers;
-    private SpriteRenderer spriteRenderer;
+
     private float minDistanceToGround = 1f;
 
     private Health healthController;
@@ -18,8 +17,8 @@ public class AlienColliderScript : MonoBehaviour
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        renderers = GetComponentsInChildren<MeshRenderer>();
+        spriteAnimation = GetComponent<SpriteAnimation>();
+       
         GameObject director = GameObject.Find("SceneDirector");
         healthController = director.GetComponent<Health>();
         scoreController = director.GetComponent<ScoreController>();
@@ -77,6 +76,8 @@ public class AlienColliderScript : MonoBehaviour
 
         //armadaAttackController.GoFaster();
 
+        if (scoreController == null)
+            Start();
         scoreController.UpdateScore(p.points);
 
         Transform column = transform.parent;
@@ -86,10 +87,9 @@ public class AlienColliderScript : MonoBehaviour
         if (column.childCount == 0)
             Destroy(column.gameObject);
 
-        foreach (MeshRenderer renderer in renderers)
-        {
+        foreach (MeshRenderer renderer in spriteAnimation.GetMeshRenderers())
             renderer.material = deadMaterial;
-        }
-        spriteRenderer.sprite = deadSprite;
+        
+        spriteAnimation.ReplaceWithDeadSprite();
     }
 }
