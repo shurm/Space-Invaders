@@ -5,11 +5,6 @@ using UnityEngine;
 public class ArmadaController : MonoBehaviour
 {
 
-    public GameObject[] alienPrefabs;
-
-    public float rowSpacing;
-    public float columnSpacing;
-
     public float movementTimeInterval;
     public float movementTimeIntervalMin;
     

@@ -28,7 +28,7 @@ public class SpriteAnimation : MonoBehaviour
 
     public void ReplaceWithDeadSprite()
     {
-        i = (i - 1) % activeSprites.Length;
+        i = (i + 1) % activeSprites.Length;
 
         Sprite s = deadSprites[i];
         spriteRenderer.sprite = s;
