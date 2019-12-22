@@ -62,7 +62,7 @@ public class Ship : MonoBehaviour
             LaunchBullet();
         }
 
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             LaunchMissile();
         }
