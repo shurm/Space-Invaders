@@ -32,7 +32,7 @@ public class Ship : MonoBehaviour
 
     private Joystick joystick;
 
-    void Awake()
+    void Start()
     {
         joystick = FindObjectOfType<Joystick>();
         halfPlayerSizeX = baseRenderer.bounds.size.x / 2;
