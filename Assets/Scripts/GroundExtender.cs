@@ -24,10 +24,4 @@ public class GroundExtender : MonoBehaviour
        // transform.position = centerPos;
         transform.localScale = new Vector3(scaleX, transform.localScale.y, 1);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
