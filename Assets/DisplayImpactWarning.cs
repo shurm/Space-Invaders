@@ -5,7 +5,13 @@ public class DisplayImpactWarning : MonoBehaviour
     public GameObject shipBase;
 
     public GameObject warningMessage;
-   
+
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -24,12 +30,13 @@ public class DisplayImpactWarning : MonoBehaviour
             //Debug.Log(alienBullet.transform.position);
             
             if (x >= shipLeftBorder && x <= shipRightBorder)
-            {    
+            {
                 displayImpactMessage = true;
                 break;       
             }
         }
 
         warningMessage.SetActive(displayImpactMessage);
+        audioSource.enabled = displayImpactMessage;
     }
 }
