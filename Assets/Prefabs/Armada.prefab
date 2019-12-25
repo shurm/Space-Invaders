@@ -66,11 +66,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70a7a3ebd87fcea47b3e920bdf57cd95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  columnLimit: 7
   alienPrefabs:
   - {fileID: 8397962626881859533, guid: cec81c1c9f0656a428f939f1a0f5b972, type: 3}
   - {fileID: 2059154273193854141, guid: b738e268f6dc0a848ae4022e448c4842, type: 3}
   - {fileID: 3042284079522060461, guid: 0fa79a27542731646891c79b11ec9305, type: 3}
   rowSpacing: 0.6
   columnSpacing: 1
-  columns: 4
+  columns: 3
   rows: 6

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ArmadaChildSpawner : MonoBehaviour
 {
+    public int columnLimit;
+
     public GameObject[] alienPrefabs;
 
     public float rowSpacing;
@@ -12,6 +14,7 @@ public class ArmadaChildSpawner : MonoBehaviour
     public int columns;
 
     public int rows;
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +54,5 @@ public class ArmadaChildSpawner : MonoBehaviour
 
         Destroy(emptyColumn);
 
-    }
-
+    }    
 }

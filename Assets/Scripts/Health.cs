@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     public int lives;
-    private Text livesText;
+    public Text livesText;
 
     private ScoreController scoreController;
     private GamePlayDirector director;
@@ -18,14 +18,21 @@ public class Health : MonoBehaviour
     private bool beingHandled = false;
     private void Start()
     {
-        livesText = GameObject.Find("Lives Number").GetComponent<Text>();
+        if(livesText == null)
+            livesText = GameObject.Find("Lives Number").GetComponent<Text>();
 
         scoreController = GetComponent<ScoreController>();
         director = GetComponent<GamePlayDirector>();
 
         livesText.text = lives + "";
     }
-    
+
+    public void IncreaseLives()
+    {
+        lives++;
+        livesText.text = lives + "";
+    }
+
     internal void KillPlayer()
     {
         lives--;
