@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//stretches or shrinks the ground so that it scales to the screen size
 public class GroundExtender : MonoBehaviour
 {
+    private float leftBorder, rightBorder;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         float distance = transform.position.z - Camera.main.transform.position.z;
         Ship player = FindObjectOfType<Ship>();
 
-        float leftBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance)).x + player.GetPlayerSizeX()*3/4;
-        float rightBorder = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, distance)).x - player.GetPlayerSizeX()*3/4;
+        leftBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance)).x + player.GetPlayerSizeX()*3/4;
+        rightBorder = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, distance)).x - player.GetPlayerSizeX()*3/4;
 
         Vector3 centerPos = new Vector3(leftBorder + rightBorder, transform.position.y) / 2;
 
@@ -23,5 +25,14 @@ public class GroundExtender : MonoBehaviour
        
        // transform.position = centerPos;
         transform.localScale = new Vector3(scaleX, transform.localScale.y, 1);
+    }
+
+    public float GetLeftBorder()
+    {
+        return leftBorder;
+    }
+    public float GetRightBorder()
+    {
+        return rightBorder;
     }
 }

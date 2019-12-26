@@ -54,5 +54,10 @@ public class ArmadaChildSpawner : MonoBehaviour
 
         Destroy(emptyColumn);
 
-    }    
+    }
+    
+    public void IncrementColumns()
+    {
+        columns = Mathf.Min(columns + 1, columnLimit);
+    }
 }

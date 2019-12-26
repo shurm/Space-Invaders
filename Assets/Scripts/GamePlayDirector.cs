@@ -30,21 +30,22 @@ public class GamePlayDirector : MonoBehaviour
     private int wavesLeftUntilLifeIncrease;
     private Health playerHealth;
 
-    private int originalColumnCount;
-    private int currentColumnCount;
-
     private void Start()
     {
         playerHealth = GetComponent<Health>();
-        
+
+        armadaPrefab = Instantiate(armadaPrefab.gameObject).GetComponent<ArmadaChildSpawner>();
+        armadaPrefab.gameObject.SetActive(false);
+
         currentArmada = Instantiate(armadaPrefab.gameObject, desiredArmadaPosition.position, Quaternion.identity);
+        currentArmada.SetActive(true);
+
         StartCoroutine(PlayStartSound());
 
         wavesLeftUntilLifeIncrease = wavesUntilLifeIncrease;
         extraLifeMessage.SetActive(false);
 
-        originalColumnCount = armadaPrefab.columns;
-        currentColumnCount = originalColumnCount;
+       
     }
 
     private void Update()
@@ -79,10 +80,9 @@ public class GamePlayDirector : MonoBehaviour
         Destroy(currentArmada);
 
         //creates a new (possibly bigger/more columns armada)
-        currentColumnCount = Mathf.Min(currentColumnCount + 1, armadaPrefab.columnLimit);
-        armadaPrefab.columns = currentColumnCount;
+        armadaPrefab.IncrementColumns();
         currentArmada = Instantiate(armadaPrefab.gameObject, desiredArmadaPosition.position, Quaternion.identity);
-        armadaPrefab.columns = originalColumnCount;
+        currentArmada.SetActive(true);
 
         //displays wave info to player
         currentWaveNumber++;

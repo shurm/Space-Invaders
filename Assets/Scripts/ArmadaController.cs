@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ArmadaController : MonoBehaviour
 {
-
+    private GroundExtender ground;
+     
     public float movementTimeInterval;
     public float movementTimeIntervalMin;
     
@@ -31,19 +32,21 @@ public class ArmadaController : MonoBehaviour
         movesRemaining = horizontalMoves;
 
         timeRemainingTillAttack = attackTimeInterval;
-        
+
+        ground = GameObject.FindGameObjectWithTag("Ground").GetComponent<GroundExtender>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (transform.childCount == 0)
+            return;
 
         //movement logic 
         if (timeRemainingTillMove <= 0)
         {
             Vector3 displacement;
-            if (movesRemaining <= 0)
+            if (ArmadaIsAboutToMoveOffScreen())
             {
                 displacement = Vector3.down * verticalDisplacement;
                 movesRemaining = horizontalMoves;
@@ -76,8 +79,7 @@ public class ArmadaController : MonoBehaviour
         //attack logic 
         if (timeRemainingTillAttack <= 0)
         {
-            if (transform.childCount == 0)
-                return;
+            
             int randomAlienColumn = Random.Range(0, transform.childCount - 1);
 
             Transform columnChosen = transform.GetChild(randomAlienColumn);
@@ -111,5 +113,12 @@ public class ArmadaController : MonoBehaviour
         return lowestChild;
     }
 
-    
+    private bool ArmadaIsAboutToMoveOffScreen()
+    {
+        Vector3 leftMostAlienPosition = transform.GetChild(0).GetChild(0).transform.position;
+        Vector3 rightMostAlienPosition = transform.GetChild(transform.childCount - 1).GetChild(0).transform.position;
+
+        return ((leftMostAlienPosition + Vector3.right * horizonalDisplacement).x < ground.GetLeftBorder() ||
+            (rightMostAlienPosition + Vector3.right * horizonalDisplacement).x > ground.GetRightBorder());
+    }
 }
